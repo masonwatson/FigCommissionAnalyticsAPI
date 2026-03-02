@@ -1,0 +1,22 @@
+#################################################
+# .NET / Visual Studio
+#################################################
+
+# Build folders
+**/bin/
+**/obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.pdb
+
+# Rider / JetBrains / VS Code
+.idea/
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
