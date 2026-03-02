@@ -8,7 +8,7 @@ public class HealthController : ControllerBase
 {
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public IActionResult Get()
     {
         return Ok(new { status = "Healthy" });
     }
