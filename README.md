@@ -1,0 +1,52 @@
+# Fig Commission Analytics System
+
+## Project Setup
+
+### **1.1. Clone and Run solution with IIS**
+
+```bash
+cd C:\
+git clone https://github.com/masonwatson/FigCommissionAnalyticsAPI.git
+```
+
+1. Navigate to C:\FigCommissionAnalyticsAPI\engine\FigCommissionAnalyticsEngine\
+2. Open the .sln
+3. Build the Solution
+4. Make sure FigCommissionAnalyticsEngine.API is the startup project
+5. Run with IIS Express
+6. Copy the localhost string (*e.g. https://localhost:44391*)
+
+![Alt text](docs/Images/localhost-iis-express-point.png)
+
+### **1.2. Or Clone and Restore**
+
+```bash
+cd C:\
+git clone https://github.com/masonwatson/FigCommissionAnalyticsAPI.git
+cd FigCommissionAnalyticsAPI/engine/FigCommissionAnalyticsEngine
+dotnet restore
+cd FigCommissionAnalyticsEngine.API
+dotnet run
+```
+1. Copy the localhost port url (*e.g. http://localhost:5099*)
+
+![Alt text](docs/Images/localhost-dotnet-run-point.png)
+
+### **2. Navigate to the Website**
+
+https://masonwatson.github.io/FigCommissionAnalyticsWeb/financial-advisor-summary
+
+### **3. Enter the Localhost Port Url into the Website's Input**
+
+![Alt text](docs/Images/localhost-website-point.png)
+
+## Troubleshooting Client Side
+
+If website does not work, please clone the FigCommissionAnalyticsWeb repo
+```bash
+cd C:\
+git clone https://github.com/masonwatson/FigCommissionAnalyticsWeb.git
+cd FigCommissionAnalyticsWeb
+npm install
+ng serve --open
+```
