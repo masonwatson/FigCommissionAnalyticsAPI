@@ -1,0 +1,39 @@
+﻿using Asp.Versioning;
+using FigCommissionAnalyticsEngine.Application.UseCases.FinancialAdvisorSummary.GetFinancialAdvisorSummary;
+using FigCommissionAnalyticsEngine.Application.UseCases.MonthlyTrend.GetMonthlyTrend;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FigCommissionAnalyticsEngine.API.Controllers;
+
+[ApiController]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}")]
+public class ReportController : ControllerBase
+{
+    private readonly GetFinancialAdvisorSummaryHandler _handler;
+    private readonly GetMonthlyTrendHandler _monthlyTrendHandler;
+
+    public ReportController(GetFinancialAdvisorSummaryHandler handler, GetMonthlyTrendHandler monthlyTrendHandler)
+    {
+        _handler = handler;
+        _monthlyTrendHandler = monthlyTrendHandler;
+    }
+
+    [HttpGet("financialReportSummary")]
+    public async Task<IActionResult> GetFinancialAdvisorSummary(
+        [FromQuery] GetFinancialAdvisorSummaryRequest request,
+        CancellationToken cancellationToken)
+    {
+        var response = await _handler.HandleAsync(request, cancellationToken);
+        return Ok(response);
+    }
+
+    [HttpGet("monthlyTrend")]
+    public async Task<IActionResult> GetMonthlyTrend(
+        [FromQuery] GetMonthlyTrendRequest request,
+        CancellationToken cancellationToken)
+    {
+        var response = await _monthlyTrendHandler.HandleAsync(request, cancellationToken);
+        return Ok(response);
+    }
+}

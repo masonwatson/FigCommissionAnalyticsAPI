@@ -1,0 +1,63 @@
+﻿using FigCommissionAnalyticsEngine.Application.UseCases.MonthlyTrend.GetMonthlyTrend;
+using Microsoft.EntityFrameworkCore;
+
+namespace FigCommissionAnalyticsEngine.Infrastructure.Data.Queries;
+
+public class MonthlyTrendReader : IMonthlyTrendReader
+{
+    private readonly AppDbContext _context;
+
+    public MonthlyTrendReader(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<GetMonthlyTrendResponse> GetMonthlyTrendAsync(
+        GetMonthlyTrendRequest request, 
+        CancellationToken cancellationToken)
+    {
+        var statements = await _context.AgentCarrierCommissionStatements
+            .Include(s => s.AgentCarrier)
+            .Where(s => s.AgentCarrier.AgentId == request.AgentId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        var filteredStatements = statements
+            .Where(s => !string.IsNullOrEmpty(s.StatementDate) && 
+                       DateOnly.TryParse(s.StatementDate, out var date) &&
+                       (!request.StartDate.HasValue || date >= request.StartDate.Value) &&
+                       (!request.EndDate.HasValue || date <= request.EndDate.Value))
+            .ToList();
+        
+        var maxEndDate = DateOnly.FromDateTime(DateTime.Today.AddDays(-DateTime.Today.Day));
+
+        var tempMinStartDate1 = statements
+            .Select(s => DateOnly.Parse(s.StatementDate))
+            .DefaultIfEmpty(DateOnly.MinValue)
+            .Min();
+
+        var tempMinStartDate2 = maxEndDate.AddMonths(-11);
+        var tempStartDateDays = tempMinStartDate2.Day;
+        tempMinStartDate2 = tempMinStartDate2.AddDays(-tempStartDateDays + 1);
+
+        var minStartDate = tempMinStartDate1 > tempMinStartDate2 ? tempMinStartDate1 : tempMinStartDate2;
+
+        var monthlyCommissions = filteredStatements
+            .GroupBy(s => s.StatementDate)
+            .Select(g => new MonthlyCommission
+            {
+                YearMonth = g.Key,
+                TotalCommission = g.Sum(s => s.CommissionAmount ?? 0)
+            })
+            .OrderBy(m => m.YearMonth)
+            .ToList();
+
+        return new GetMonthlyTrendResponse
+        {
+            AgentId = request.AgentId,
+            MinStartDate = minStartDate,
+            MaxEndDate = maxEndDate,
+            MonthlyCommissions = monthlyCommissions
+        };
+    }
+}

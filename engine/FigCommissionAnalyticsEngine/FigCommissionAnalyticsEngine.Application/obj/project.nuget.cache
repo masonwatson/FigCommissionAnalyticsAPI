@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "51Rh/7BgwT4=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Mason\\source\\repos\\FigCommissionAnalyticsEngine\\engine\\FigCommissionAnalyticsEngine\\FigCommissionAnalyticsEngine.Application\\FigCommissionAnalyticsEngine.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Mason\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

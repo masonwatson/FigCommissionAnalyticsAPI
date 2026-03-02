@@ -1,0 +1,11 @@
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\bin\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.deps.json
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\bin\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.dll
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\bin\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.pdb
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\obj\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\obj\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.AssemblyInfoInputs.cache
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\obj\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.AssemblyInfo.cs
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\obj\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\obj\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.dll
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\obj\Debug\net8.0\refint\FigCommissionAnalyticsEngine.Domain.dll
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\obj\Debug\net8.0\FigCommissionAnalyticsEngine.Domain.pdb
+C:\Users\Mason\source\repos\FigCommissionAnalyticsEngine\engine\FigCommissionAnalyticsEngine\FigCommissionAnalyticsEngine.Domain\obj\Debug\net8.0\ref\FigCommissionAnalyticsEngine.Domain.dll

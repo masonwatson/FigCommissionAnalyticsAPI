@@ -1,0 +1,27 @@
+using FigCommissionAnalyticsEngine.Application.UseCases.Agents.GetAllAgents;
+using FigCommissionAnalyticsEngine.Application.UseCases.FinancialAdvisorSummary.GetFinancialAdvisorSummary;
+using FigCommissionAnalyticsEngine.Application.UseCases.InsuranceCarrierBreakdown.GetInsuranceCarrierBreakdown;
+using FigCommissionAnalyticsEngine.Application.UseCases.MonthlyTrend.GetMonthlyTrend;
+using FigCommissionAnalyticsEngine.Infrastructure.Data;
+using FigCommissionAnalyticsEngine.Infrastructure.Data.Queries;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace FigCommissionAnalyticsEngine.Infrastructure;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddScoped<IGetAllAgentsReader, GetAllAgentsReader>();
+        services.AddScoped<IFinancialAdvisorSummaryReader, FinancialAdvisorSummaryReader>();
+        services.AddScoped<IInsuranceCarrierBreakdownReader, InsuranceCarrierBreakdownReader>();
+        services.AddScoped<IMonthlyTrendReader, MonthlyTrendReader>();
+
+        return services;
+    }
+}

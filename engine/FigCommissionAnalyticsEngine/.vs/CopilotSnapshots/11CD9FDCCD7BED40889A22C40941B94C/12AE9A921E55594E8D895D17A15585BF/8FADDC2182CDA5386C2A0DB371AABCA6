@@ -1,0 +1,27 @@
+﻿using Asp.Versioning;
+using FigCommissionAnalyticsEngine.Application.UseCases.FinancialAdvisorSummary.GetFinancialAdvisorSummary;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FigCommissionAnalyticsEngine.API.Controllers;
+
+[ApiController]
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}")]
+public class ReportController : ControllerBase
+{
+    private readonly GetFinancialAdvisorSummaryHandler _handler;
+
+    public ReportController(GetFinancialAdvisorSummaryHandler handler)
+    {
+        _handler = handler;
+    }
+
+    [HttpGet("financialReportSummary")]
+    public async Task<IActionResult> GetFinancialAdvisorSummary(
+        [FromQuery] GetFinancialAdvisorSummaryRequest request,
+        CancellationToken cancellationToken)
+    {
+        var response = await _handler.HandleAsync(request, cancellationToken);
+        return Ok(response);
+    }
+}
