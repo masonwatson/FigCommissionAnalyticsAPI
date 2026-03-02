@@ -21,6 +21,22 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+const string GhPagesCors = "GhPagesCors";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(GhPagesCors, policy =>
+    {
+        policy
+            .WithOrigins(
+                "https://masonwatson.github.io"
+                // add custom domain too if you use one
+            )
+            .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .WithHeaders("Content-Type", "Authorization");
+    });
+});
+
 var app = builder.Build();
 
 app.UseGlobalExceptionHandling();
@@ -32,6 +48,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(GhPagesCors);
 
 app.UseAuthorization();
 
