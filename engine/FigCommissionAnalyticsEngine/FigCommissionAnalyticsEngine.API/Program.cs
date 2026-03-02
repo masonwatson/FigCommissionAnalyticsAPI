@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using FigCommissionAnalyticsEngine.API.ExceptionHandling;
 using FigCommissionAnalyticsEngine.Application;
 using FigCommissionAnalyticsEngine.Infrastructure;
 
@@ -15,15 +16,15 @@ builder.Services.AddApiVersioning(options =>
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ReportApiVersions = true;
 })
-.AddMvc(); // <-- This is the crucial part for MVC controllers
+.AddMvc();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseGlobalExceptionHandling();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
