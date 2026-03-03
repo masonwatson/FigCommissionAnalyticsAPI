@@ -41,8 +41,8 @@ Please click the "allow" option on this popup, as it allows for the web-hosted c
 
 ![Alt text](docs/Images/website-allow-for-cors-point.png)
 
-### **4. Enter the Localhost Base Url with the Port Number into the Website's Input**
-
+### **4. If prompted, Enter the Localhost Base Url with the Port Number into the Website's Input**
+If you are already running the API locally with IIS Express, there's a chance that the app will automatically connect to the API 
 ![Alt text](docs/Images/localhost-website-point.png)
 
 ## Troubleshooting Client Side
