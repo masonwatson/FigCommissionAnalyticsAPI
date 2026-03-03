@@ -1,4 +1,5 @@
 using FigCommissionAnalyticsEngine.Application.UseCases.FinancialAdvisorSummary.GetFinancialAdvisorSummary;
+using FigCommissionAnalyticsEngine.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace FigCommissionAnalyticsEngine.Infrastructure.Data.Queries;
@@ -13,7 +14,8 @@ public class FinancialAdvisorSummaryReader : IFinancialAdvisorSummaryReader
     }
 
     public async Task<GetFinancialAdvisorSummaryResponse> GetFinancialAdvisorSummaryAsync(
-        GetFinancialAdvisorSummaryRequest request, 
+        ReportingWindow? reportingWindow,
+        string? sort,
         CancellationToken cancellationToken)
     {
         // Load all commission statements with related Agent and Carrier data
@@ -26,13 +28,12 @@ public class FinancialAdvisorSummaryReader : IFinancialAdvisorSummaryReader
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-        // Filter statements by date range if provided in the request
+        // Filter statements by date range if provided in the reporting window
         // StatementDate is stored as TEXT in SQLite, so we parse it to DateOnly for comparison
         var filteredStatements = statements
             .Where(s => !string.IsNullOrEmpty(s.StatementDate) && 
                        DateOnly.TryParse(s.StatementDate, out var date) &&
-                       (!request.StartDate.HasValue || date >= request.StartDate.Value) &&
-                       (!request.EndDate.HasValue || date <= request.EndDate.Value))
+                       (reportingWindow == null || (date >= reportingWindow.StartDate && date <= reportingWindow.EndDate)))
             .ToList();
         
         // Calculate the maximum end date as the last day of the previous month
@@ -116,10 +117,10 @@ public class FinancialAdvisorSummaryReader : IFinancialAdvisorSummaryReader
             })
             .ToList();
 
-        // Apply sorting based on the request parameter
-        if (!string.IsNullOrEmpty(request.Sort))
+        // Apply sorting based on the sort parameter
+        if (!string.IsNullOrEmpty(sort))
         {
-            switch (request.Sort.ToLower())
+            switch (sort.ToLower())
             {
                 case "name":
                     agentSummaries = agentSummaries.OrderByDescending(a => a.AgentName).ToList();

@@ -1,3 +1,5 @@
+using FigCommissionAnalyticsEngine.Domain.Shared;
+
 namespace FigCommissionAnalyticsEngine.Application.UseCases.FinancialAdvisorSummary.GetFinancialAdvisorSummary;
 
 public class GetFinancialAdvisorSummaryHandler : IGetFinancialAdvisorSummaryHandler
@@ -13,6 +15,8 @@ public class GetFinancialAdvisorSummaryHandler : IGetFinancialAdvisorSummaryHand
         GetFinancialAdvisorSummaryRequest request, 
         CancellationToken cancellationToken)
     {
-        return await _reader.GetFinancialAdvisorSummaryAsync(request, cancellationToken);
+        var reportingWindow = ReportingWindow.Create(request.StartDate, request.EndDate);
+
+        return await _reader.GetFinancialAdvisorSummaryAsync(reportingWindow, request.Sort, cancellationToken);
     }
 }

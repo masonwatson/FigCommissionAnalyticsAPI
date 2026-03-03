@@ -1,8 +1,11 @@
+using FigCommissionAnalyticsEngine.Domain.Shared;
+
 namespace FigCommissionAnalyticsEngine.Application.UseCases.FinancialAdvisorSummary.GetFinancialAdvisorSummary;
 
 public interface IFinancialAdvisorSummaryReader
 {
     Task<GetFinancialAdvisorSummaryResponse> GetFinancialAdvisorSummaryAsync(
-        GetFinancialAdvisorSummaryRequest request, 
+        ReportingWindow? reportingWindow,
+        string? sort,
         CancellationToken cancellationToken);
 }

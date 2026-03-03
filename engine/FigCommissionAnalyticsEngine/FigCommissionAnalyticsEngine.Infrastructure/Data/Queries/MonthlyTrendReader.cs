@@ -1,4 +1,5 @@
 using FigCommissionAnalyticsEngine.Application.UseCases.MonthlyTrend.GetMonthlyTrend;
+using FigCommissionAnalyticsEngine.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace FigCommissionAnalyticsEngine.Infrastructure.Data.Queries;
@@ -13,24 +14,24 @@ public class MonthlyTrendReader : IMonthlyTrendReader
     }
 
     public async Task<GetMonthlyTrendResponse> GetMonthlyTrendAsync(
-        GetMonthlyTrendRequest request, 
+        long agentId,
+        ReportingWindow? reportingWindow,
         CancellationToken cancellationToken)
     {
         // Load all commission statements for the specified agent
         // Include AgentCarrier relationship for filtering
         var statements = await _context.AgentCarrierCommissionStatements
             .Include(s => s.AgentCarrier)
-            .Where(s => s.AgentCarrier.AgentId == request.AgentId)
+            .Where(s => s.AgentCarrier.AgentId == agentId)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-        // Filter statements by date range if provided in the request
+        // Filter statements by date range if provided in the reporting window
         // StatementDate is stored as TEXT in SQLite, so we parse it to DateOnly for comparison
         var filteredStatements = statements
             .Where(s => !string.IsNullOrEmpty(s.StatementDate) && 
                        DateOnly.TryParse(s.StatementDate, out var date) &&
-                       (!request.StartDate.HasValue || date >= request.StartDate.Value) &&
-                       (!request.EndDate.HasValue || date <= request.EndDate.Value))
+                       (reportingWindow == null || (date >= reportingWindow.StartDate && date <= reportingWindow.EndDate)))
             .ToList();
         
         // Calculate the maximum end date as the last day of the previous month
@@ -66,7 +67,7 @@ public class MonthlyTrendReader : IMonthlyTrendReader
 
         return new GetMonthlyTrendResponse
         {
-            AgentId = request.AgentId,
+            AgentId = agentId,
             MinStartDate = minStartDate,
             MaxEndDate = maxEndDate,
             MonthlyCommissions = monthlyCommissions

@@ -1,8 +1,11 @@
+using FigCommissionAnalyticsEngine.Domain.Shared;
+
 namespace FigCommissionAnalyticsEngine.Application.UseCases.MonthlyTrend.GetMonthlyTrend;
 
 public interface IMonthlyTrendReader
 {
     Task<GetMonthlyTrendResponse> GetMonthlyTrendAsync(
-        GetMonthlyTrendRequest request, 
+        long agentId,
+        ReportingWindow? reportingWindow,
         CancellationToken cancellationToken);
 }

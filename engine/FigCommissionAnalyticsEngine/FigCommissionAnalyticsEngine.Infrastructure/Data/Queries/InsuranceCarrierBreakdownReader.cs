@@ -1,4 +1,5 @@
 using FigCommissionAnalyticsEngine.Application.UseCases.InsuranceCarrierBreakdown.GetInsuranceCarrierBreakdown;
+using FigCommissionAnalyticsEngine.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace FigCommissionAnalyticsEngine.Infrastructure.Data.Queries;
@@ -13,32 +14,31 @@ public class InsuranceCarrierBreakdownReader : IInsuranceCarrierBreakdownReader
     }
 
     public async Task<GetInsuranceCarrierBreakdownResponse> GetInsuranceCarrierBreakdownAsync(
-        GetInsuranceCarrierBreakdownRequest request, 
+        long? agentId,
+        ReportingWindow? reportingWindow,
         CancellationToken cancellationToken)
     {
         // Fetch agent details if a specific AgentId is provided
         // Returns null if no AgentId, which will show "Average Advisor" in the response
-        var agent = request.AgentId.HasValue ? await _context.Agents
+        var agent = agentId.HasValue ? await _context.Agents
             .AsNoTracking()
-            .FirstOrDefaultAsync(a => a.AgentId == request.AgentId.Value, cancellationToken) : null;
+            .FirstOrDefaultAsync(a => a.AgentId == agentId.Value, cancellationToken) : null;
 
         // Load commission statements with Carrier data
         // Filter by AgentId if provided, otherwise include all agents for aggregate view
         var statements = await _context.AgentCarrierCommissionStatements
             .Include(s => s.AgentCarrier)
                 .ThenInclude(ac => ac.Carrier)
-            .Where(s => !request.AgentId.HasValue || s.AgentCarrier.AgentId == request.AgentId.Value)
+            .Where(s => !agentId.HasValue || s.AgentCarrier.AgentId == agentId.Value)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-        // Filter statements by date range if provided
-        // Note: For EndDate, we normalize to the first day of the following month to include the entire end month
+        // Filter statements by date range if provided in the reporting window
         // StatementDate is stored as TEXT in SQLite, so we parse it to DateOnly for comparison
         var filteredStatements = statements
             .Where(s => !string.IsNullOrEmpty(s.StatementDate) &&
                         DateOnly.TryParse(s.StatementDate, out var date) &&
-                        (!request.StartDate.HasValue || date >= request.StartDate.Value) &&
-                        (!request.EndDate.HasValue || date <= request.EndDate.Value.AddMonths(1).AddDays(-request.EndDate.Value.Day + 1)))
+                        (reportingWindow == null || (date >= reportingWindow.StartDate && date <= reportingWindow.EndDate)))
             .ToList();
 
         // Calculate the maximum end date as the last day of the previous month
@@ -103,7 +103,7 @@ public class InsuranceCarrierBreakdownReader : IInsuranceCarrierBreakdownReader
 
         return new GetInsuranceCarrierBreakdownResponse
         {
-            AgentId = request?.AgentId,
+            AgentId = agentId,
             AgentName = agent?.AgentName ?? "Average Advisor",
             MinStartDate = minStartDate,
             MaxEndDate = maxEndDate,

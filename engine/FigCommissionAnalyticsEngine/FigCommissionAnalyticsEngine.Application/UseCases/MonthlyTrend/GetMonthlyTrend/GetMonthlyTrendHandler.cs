@@ -1,3 +1,5 @@
+using FigCommissionAnalyticsEngine.Domain.Shared;
+
 namespace FigCommissionAnalyticsEngine.Application.UseCases.MonthlyTrend.GetMonthlyTrend;
 
 public class GetMonthlyTrendHandler : IGetMonthlyTrendHandler
@@ -13,6 +15,8 @@ public class GetMonthlyTrendHandler : IGetMonthlyTrendHandler
         GetMonthlyTrendRequest request, 
         CancellationToken cancellationToken)
     {
-        return await _reader.GetMonthlyTrendAsync(request, cancellationToken);
+        var reportingWindow = ReportingWindow.Create(request.StartDate, request.EndDate);
+
+        return await _reader.GetMonthlyTrendAsync(request.AgentId, reportingWindow, cancellationToken);
     }
 }

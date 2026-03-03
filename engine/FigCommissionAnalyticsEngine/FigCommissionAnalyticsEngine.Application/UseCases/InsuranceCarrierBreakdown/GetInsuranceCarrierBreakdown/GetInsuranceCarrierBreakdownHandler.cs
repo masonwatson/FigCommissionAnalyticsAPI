@@ -1,3 +1,5 @@
+using FigCommissionAnalyticsEngine.Domain.Shared;
+
 namespace FigCommissionAnalyticsEngine.Application.UseCases.InsuranceCarrierBreakdown.GetInsuranceCarrierBreakdown;
 
 public class GetInsuranceCarrierBreakdownHandler : IGetInsuranceCarrierBreakdownHandler
@@ -13,6 +15,8 @@ public class GetInsuranceCarrierBreakdownHandler : IGetInsuranceCarrierBreakdown
         GetInsuranceCarrierBreakdownRequest request, 
         CancellationToken cancellationToken)
     {
-        return await _reader.GetInsuranceCarrierBreakdownAsync(request, cancellationToken);
+        var reportingWindow = ReportingWindow.Create(request.StartDate, request.EndDate);
+
+        return await _reader.GetInsuranceCarrierBreakdownAsync(request.AgentId, reportingWindow, cancellationToken);
     }
 }

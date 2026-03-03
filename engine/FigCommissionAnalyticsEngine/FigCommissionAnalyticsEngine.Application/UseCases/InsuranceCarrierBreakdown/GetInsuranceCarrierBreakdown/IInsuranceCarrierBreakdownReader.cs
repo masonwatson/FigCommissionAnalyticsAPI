@@ -1,8 +1,11 @@
+using FigCommissionAnalyticsEngine.Domain.Shared;
+
 namespace FigCommissionAnalyticsEngine.Application.UseCases.InsuranceCarrierBreakdown.GetInsuranceCarrierBreakdown;
 
 public interface IInsuranceCarrierBreakdownReader
 {
     Task<GetInsuranceCarrierBreakdownResponse> GetInsuranceCarrierBreakdownAsync(
-        GetInsuranceCarrierBreakdownRequest request, 
+        long? agentId,
+        ReportingWindow? reportingWindow,
         CancellationToken cancellationToken);
 }
