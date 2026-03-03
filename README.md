@@ -36,7 +36,12 @@ dotnet run
 
 https://masonwatson.github.io/FigCommissionAnalyticsWeb/financial-advisor-summary
 
-### **3. Enter the Localhost Base Url with the Port Number into the Website's Input**
+### **3. Click Allow On the Popup**
+Please click the "allow" option on this popup, as it allows for the web-hosted client side to talk to the locally-hosted API. If you would rather run the client side locally, there are additional instructions below on how to do so. Note, if running the client side locally, there will be Kendo watermarks on the UI.
+
+![Alt text](docs/Images/website-allow-for-cors-point.png)
+
+### **4. Enter the Localhost Base Url with the Port Number into the Website's Input**
 
 ![Alt text](docs/Images/localhost-website-point.png)
 
