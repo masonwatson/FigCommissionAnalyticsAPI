@@ -42,7 +42,7 @@ https://masonwatson.github.io/FigCommissionAnalyticsWeb/financial-advisor-summar
 
 ## Troubleshooting Client Side
 
-If website does not work, it might be due to a CORS error. In that case, please clone the FigCommissionAnalyticsWeb repo and run it locally.
+If the website does not accept the localhost, it might be due to a CORS error. In that case, please clone the FigCommissionAnalyticsWeb repo and run it locally.
 ```bash
 cd C:\
 git clone https://github.com/masonwatson/FigCommissionAnalyticsWeb.git
