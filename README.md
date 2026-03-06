@@ -16,7 +16,7 @@ git clone https://github.com/masonwatson/FigCommissionAnalyticsAPI.git
 5. Run with IIS Express
 6. Copy the localhost base url with the port number (*e.g. https://localhost:44391*)
 
-![Alt text](docs/Images/localhost-iis-express-point.png)
+![Run locally with IIS](docs/Images/localhost-iis-express-point.png)
 
 ### **1.2. Or Clone and Restore**
 
@@ -30,7 +30,7 @@ dotnet run
 ```
 1. Copy the localhost base url with the port number (*e.g. http://localhost:5099*)
 
-![Alt text](docs/Images/localhost-dotnet-run-point.png)
+![Run locally with dotnet run](docs/Images/localhost-dotnet-run-point.png)
 
 ### **2. Navigate to the Website**
 
@@ -38,19 +38,26 @@ https://masonwatson.github.io/FigCommissionAnalyticsWeb/financial-advisor-summar
 
 ### **3. Click Allow On the Popup**
 
-Please click the "allow" option on this popup, as it allows for the web-hosted client side to talk to the locally-hosted API. If you would rather run the client side locally, there are additional instructions below on how to do so. Note, if running the client side locally, there will be Kendo watermarks on the UI.
+**Please click the "allow" option on this popup**, as it allows for the web-hosted client side to talk to the locally-hosted API. If you would rather run the client side locally, there are additional instructions below on how to do so. 
 
-![Alt text](docs/Images/website-allow-for-cors-point.png)
+**Note, if running the client side locally, there will be Kendo watermarks on the UI, which could potentially obfuscate some of the data.**
+
+![Allow for CORS pointer](docs/Images/website-allow-for-cors-point.png)
 
 ### **4. If prompted, Enter the Localhost Base Url with the Port Number into the Website's Input**
 
 If you are already running the API locally with IIS Express, there's a chance that the app will automatically connect to the API.
 
-![Alt text](docs/Images/localhost-website-point.png)
+![Local host website pointer](docs/Images/localhost-website-point.png)
 
 ## Troubleshooting Client Side
 
 If the website does not accept the localhost, it might be due to a CORS error. In that case, please clone the FigCommissionAnalyticsWeb repo and run it locally.
+
+In addition to running the command below, you can change the target in the [proxy.conf.json](https://github.com/masonwatson/FigCommissionAnalyticsWeb/blob/master/proxy.conf.json) file, to **match the localhost of the running API**. Doing this will allow the web client to **connect automatically** to the API when initializing.
+
+![Code change target](docs/Images/code-change-target.png)
+
 ```bash
 cd C:\
 git clone https://github.com/masonwatson/FigCommissionAnalyticsWeb.git
